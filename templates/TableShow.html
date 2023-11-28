@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Table</title>
+  <script src="../static/js/jquery-1.11.0.min.js"></script>
+</head>
+
+<body>
+  <h1>Table</h1>
+  <table id="csvTable"></table>
+  <script>
+    $(document).ready(function () {
+      // 加载 CSV 文件
+      $.get("data.csv", function (data) {
+        // 将 CSV 数据转换为 HTML 表格
+        var rows = data.split("\n");
+        var headers = rows[0].split(",");
+        var table = $("#csvTable");
+        var tbody = $("<tbody></tbody>");
+        table.append(tbody);
+        for (var i = 1; i < rows.length; i++) {
+          var cells = rows[i].split(",");
+          var row = $("<tr></tr>");
+          for (var j = 0; j < cells.length; j++) {
+            row.append($("<td>" + cells[j] + "</td>"));
+          }
+          tbody.append(row);
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>

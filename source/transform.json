@@ -1,0 +1,46 @@
+{
+    "interest": {
+        "min": 4.779,
+        "max": 33.979
+    },
+    "f0": {
+        "min": 0.0,
+        "max": 33.0
+    },
+    "debt_loan_ratio": {
+        "min": 0.0,
+        "max": 999.0
+    },
+    "known_outstanding_loan": {
+        "min": 1,
+        "max": 59
+    },
+    "known_dero": {
+        "min": 0,
+        "max": 12
+    },
+    "pub_dero_bankrup": {
+        "min": 0.0,
+        "max": 5.0
+    },
+    "recircle_u": {
+        "min": 0.0,
+        "max": 120.6153846
+    },
+    "recircle_b": {
+        "min": 0.0,
+        "max": 779021.0
+    },
+    "scoring_high": {
+        "min": 585.0,
+        "max": 1131.818182
+    },
+    "scoring_low": {
+        "min": 540.0,
+        "max": 910.9090909
+    },
+    "early_return": {
+        "min": 0,
+        "max": 5
+    }
+}

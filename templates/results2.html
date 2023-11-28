@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Results</title>
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
+    <link rel="stylesheet" href="../static/css/history.css">
+    <script src="../static/js/jquery-1.11.0.min.js"></script>
+    <style>
+    button{
+        cursor: pointer;
+        display: inline-block;
+        text-align: center;
+        white-space: nowrap;
+        background: #303641;
+        color: #aaabae;
+        border-radius: 980px;
+        font-size: 12px;
+        line-height: 1.33337;
+        font-weight: 400;
+        letter-spacing: -.01em;
+        font-family: "SF Pro Text","SF Pro Icons","Helvetica Neue","Helvetica","Arial",sans-serif;
+        min-width: 23px;
+        padding-left: 11px;
+        padding-right: 11px;
+        padding-top: 4px;
+        padding-bottom: 4px;
+    }
+    .table {
+        width: 30%;
+        margin-left: 1%;
+        flex-shrink:0;
+        table-layout: auto;
+    }
+    .cards-table {
+        width: 100%;
+        font-family: Arial, Helvetica, sans-serif;
+        border-collapse: collapse;
+        text-align: center;
+        table-layout: auto;
+    }
+    .cards-table td, #cards-table th {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+    .cards-table tr:nth-child(even){background-color: #f2f2f2;}
+    .cards-table tr:hover {background-color: #ddd;}
+    .cards-table th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        background-color: #303641;
+        color: white;
+    }
+    td {
+        white-space: nowrap;
+    }
+     th {
+        white-space: nowrap;
+    }
+</style>
+</head>
+
+<body>
+<!-- partial:index.partial.html -->
+<table class="cards-table">
+    <h1>文件下载</h1>
+     <p><button onclick="download()" type="submit" >Download</button></p>
+<!--    <a href="'http://127.0.0.1:5000/user/download?filename=' + window.filename">-->
+<!--        <p>-->
+<!--            <button>Download</button>-->
+<!--        </p>-->
+<!--    </a>-->
+
+    <caption>文件数据</caption>
+    <thead>
+    <tr>
+        {% for col in cols %}
+        <th scope="col">{{col}}</th>
+        {% endfor %}
+    </tr>
+    </thead>
+    <tbody>
+    {% for i in range(l) %}
+        <tr style="text-align:center">
+            {% for col in cols %}
+                <td class="{{col}}">{{df[col][i]}}</td>
+            {% endfor %}
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<!-- partial -->
+<script>
+    function download(obj) {
+        const url = new URL(window.location.href);
+        // console.log("download: url = " + url);
+        var filename = url.searchParams.get("filename");
+        window.open('http://127.0.0.1:5000/user/download?filename=' + filename, '_blank');
+        // console.log("download: filename = " + filename);
+        // $.ajax({
+        //     url: 'http://127.0.0.1:5000/user/download?filename=' + filename,
+        //     type: 'get',
+        //     success: function (res) {
+        //         console.log(res);
+        //         if (res.code == 200) {
+        //             alert(res.msg)
+        //             location.href = "http://127.0.0.1:5000/user/results?filename=" + filename;
+        //             //window.open("http://127.0.0.1:5000/user/predict/results")
+        //         }
+        //         if (res.code == 300) {
+        //             alert(res.msg)
+        //             //window.open("http://127.0.0.1:5000/user/charts")
+        //         }
+        //     },
+        //     error: function () {
+        //         alert('error')
+        //     }
+        // })
+    }
+
+
+
+</script>
+
+</body>
+
+</html>

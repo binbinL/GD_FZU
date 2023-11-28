@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src='../static/js/jquery-3.6.0.min.js'></script>
+    <script src="../static/js/echarts.js"></script>
+    <script>
+        function showTable() {
+            var chartDom = document.getElementById('main');
+            var myChart = echarts.init(chartDom);
+            var option;
+
+            option = {
+                title: {
+                    text: '模型对比图'
+                },
+                legend: {
+                    data: ['Logistic Regression', 'CART', 'Random Forest']
+                },
+                radar: {
+                    // shape: 'circle',
+                    name: {
+                        textStyle: {
+                            color: '#000',
+                            fontSize: 16
+                        }
+                    },
+                    indicator: [
+                        { name: '精确率', max: 0.36, min: 0.3 },
+                        { name: 'AUC', max: 0.765, min: 0.7 },
+                        { name: '召回率', max: 0.83, min: 0.76 },
+                        { name: '准确率', max: 0.73, min: 0.67 },
+                        { name: 'F1值', max: 0.505, min: 0.45 }
+                    ],
+                },
+                series: [
+                    {
+                        name: 'Model comparison ',
+                        type: 'radar',
+                        data: [
+                            {
+                                value: [0.332, 0.724, 0.779, 0.688, 0.465],
+                                name: 'Logistic Regression'
+                            },
+                            {
+                                value: [0.353, 0.736, 0.771, 0.714, 0.484],
+                                name: 'CART'
+                            },
+                            {
+                                value: [0.356, 0.755, 0.825, 0.721, 0.498],
+                                name: 'Random Forest'
+                            }
+                        ]
+                    }
+                ]
+            };
+
+            option && myChart.setOption(option);
+        }
+    </script>
+
+
+
+</head>
+
+<body onload="showTable();">
+
+    <div id="main" style="width: 100% ;height: 800px;"></div>
+
+</body>
+
+</html>

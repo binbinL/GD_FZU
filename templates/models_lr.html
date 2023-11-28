@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src='../static/js/jquery-3.6.0.min.js'></script>
+    <script src="../static/js/echarts.js"></script>
+    <script>
+        function showTable() {
+            var app = {};
+            var chartDom = document.getElementById('main');
+            var myChart = echarts.init(chartDom);
+            var option;
+
+            const posList = [
+                'left',
+                'right',
+                'top',
+                'bottom',
+                'inside',
+                'insideTop',
+                'insideLeft',
+                'insideRight',
+                'insideBottom',
+                'insideTopLeft',
+                'insideTopRight',
+                'insideBottomLeft',
+                'insideBottomRight'
+            ];
+            app.configParameters = {
+                rotate: {
+                    min: -90,
+                    max: 90
+                },
+                align: {
+                    options: {
+                        left: 'left',
+                        center: 'center',
+                        right: 'right'
+                    }
+                },
+                verticalAlign: {
+                    options: {
+                        top: 'top',
+                        middle: 'middle',
+                        bottom: 'bottom'
+                    }
+                },
+                position: {
+                    options: posList.reduce(function (map, pos) {
+                        map[pos] = pos;
+                        return map;
+                    }, {})
+                },
+                distance: {
+                    min: 0,
+                    max: 100
+                }
+            };
+            app.config = {
+                rotate: 90,
+                align: 'left',
+                verticalAlign: 'middle',
+                position: 'insideBottom',
+                distance: 15,
+                onChange: function () {
+                    const labelOption = {
+                        rotate: app.config.rotate,
+                        align: app.config.align,
+                        verticalAlign: app.config.verticalAlign,
+                        position: app.config.position,
+                        distance: app.config.distance
+                    };
+                    myChart.setOption({
+                        series: [
+                            {
+                                label: labelOption
+                            },
+                            {
+                                label: labelOption
+                            },
+                            {
+                                label: labelOption
+                            }
+                        ]
+                    });
+                }
+            };
+            const labelOption = {
+                show: true,
+                position: app.config.position,
+                distance: app.config.distance,
+                align: app.config.align,
+                verticalAlign: app.config.verticalAlign,
+                rotate: app.config.rotate,
+                formatter: '{c}  {name|{a}}',
+                fontSize: 16,
+                rich: {
+                    name: {}
+                }
+            };
+            option = {
+                 title: {
+                    text: '逻辑回归'
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                },
+                legend: {
+                    data: ['随机采样', 'Smote采样', 'Smote-Tomek混合采样',]
+                },
+                toolbox: {
+                    show: true,
+                    orient: 'vertical',
+                    left: 'right',
+                    top: 'center',
+                    feature: {
+                        mark: { show: true },
+                        dataView: { show: true, readOnly: false },
+                        magicType: { show: true, type: ['line', 'bar', 'stack'] },
+                        restore: { show: true },
+                        saveAsImage: { show: true }
+                    }
+                },
+                xAxis: [
+                    {
+                        type: 'category',
+                        axisTick: { show: false },
+                        data: ['精确度', 'AUC', '召回率', '准确度', 'F1值'],
+                                                axisLabel: {
+                            textStyle: {
+                                color: '#000',
+                                fontSize: 16
+                            }
+                        }
+                    }
+                ],
+                yAxis: [
+                    {
+                        type: 'value'
+                    }
+                ],
+                series: [
+                    {
+                        name: '随机采样',
+                        type: 'bar',
+                        barGap: 0,
+                        label: labelOption,
+                        emphasis: {
+                            focus: 'series'
+                        },
+                        data: [0.392, 0.720, 0.656, 0.763, 0.491]
+                    },
+                    {
+                        name: 'Smote采样',
+                        type: 'bar',
+                        label: labelOption,
+                        emphasis: {
+                            focus: 'series'
+                        },
+                        data: [0.327, 0.717, 0.767, 0.684, 0.458]
+                    },
+                    {
+                        name: 'Smote-Tomek混合采样',
+                        type: 'bar',
+                        label: labelOption,
+                        emphasis: {
+                            focus: 'series'
+                        },
+                        data: [0.332, 0.724, 0.779, 0.688, 0.465]
+                    },
+                ]
+            };
+
+            option && myChart.setOption(option);
+        }
+    </script>
+
+
+
+</head>
+
+<body onload="showTable();">
+
+    <div id="main" style="width: 100% ;height: 800px;"></div>
+
+</body>
+
+</html>

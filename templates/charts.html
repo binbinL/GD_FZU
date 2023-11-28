@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Neon Admin Panel">
+    <meta name="author" content="">
+
+    <title>主页</title>
+
+
+    <link rel="stylesheet" href="../static/css/jquery-ui-1.10.3.custom.min.css">
+    <link rel="stylesheet" href="../static/css/entypo.css">
+    <link rel="stylesheet" href="../static/css/css.css">
+    <link rel="stylesheet" href="../static/css/bootstrap.css">
+    <link rel="stylesheet" href="../static/css/neon-core.css">
+    <link rel="stylesheet" href="../static/css/neon-theme.css">
+    <link rel="stylesheet" href="../static/css/neon-forms.css">
+    <link rel="stylesheet" href="../static/css/custom.css">
+
+    <script src="../static/js/jquery-1.11.0.min.js"></script>
+
+    <!--[if lt IE 9]>
+    <script src="assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+
+</head>
+
+<body class="page-body" data-url="http://neon.dev">
+
+    <div class="page-container">
+        <!-- add class "sidebar-collapsed" to close sidebar by default, "chat-visible" to make chat appear always -->
+
+        <div class="sidebar-menu">
+
+            <header class="logo-env">
+
+                <!-- logo -->
+
+                <!--            <div class="logo">-->
+                <!--                <img src="/static/picture/logo@2x.png" width="120" alt="">-->
+                <!--                &lt;!&ndash;                <h1>{{name}}</h1>&ndash;&gt;-->
+                <!--            </div>-->
+
+                <!-- logo collapse icon -->
+
+                <div class="sidebar-collapse">
+                    <a onclick="changePage('/user/index')">
+                        <!-- add class "with-animation" if you want sidebar to have animation during expanding/collapsing transition -->
+                        <i class="entypo-menu"></i>
+                    </a>
+                </div>
+
+
+            </header>
+
+
+            <ul id="main-menu" class="">
+
+                <!--                <li>-->
+                <!--                    <a onclick="changePage('/user/info')">-->
+                <!--                        &lt;!&ndash; <a onclick="loadinfo()"> &ndash;&gt;-->
+                <!--                        <i class="entypo-mail"></i>-->
+                <!--                        <span>information input</span>-->
+                <!--                    </a>-->
+
+                <!--                </li>-->
+
+
+                <!--                <li>-->
+                <!--                    <a onclick="changePage('/user/application')">-->
+                <!--                        <i class="entypo-pencil"></i>-->
+                <!--                        <span>Loan application</span>-->
+                <!--                    </a>-->
+                <!--                </li>-->
+
+                <li>
+                    <a onclick="changePage('/user/upload')">
+                        <i class="entypo-pencil"></i>
+                        <span>文件上传</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a onclick="changePage('/user/rawfile')">
+                        <i class="entypo-doc-text-inv"></i>
+                        <span>原文件列表</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a onclick="changePage('/user/dealedfile')">
+                        <i class="entypo-doc-text-inv"></i>
+                        <span>已处理文件</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a onclick="changePage('/user/resultfile')">
+                        <i class="entypo-doc-text-inv"></i>
+                        <span>结果文件</span>
+                    </a>
+                </li>
+
+
+                <li>
+                    <!--                <a onclick="changePage('/user/models')">-->
+                    <a onclick="open_and_close()">
+                        <i class="entypo-layout"></i>
+                        <span>模型对比</span>
+                    </a>
+                    <ul id="model_pk">
+                        <li><a onclick="changePage('/user/models')">三个算法模型对比</a></li>
+                        <li><a onclick="changePage('/user/models_lr')">逻辑回归模型对比</a></li>
+                        <li><a onclick="changePage('/user/models_cart')">CART树模型对比</a></li>
+                        <li><a onclick="changePage('/user/models_rf')">随机森林模型对比</a></li>
+                    </ul>
+
+                </li>
+
+                <li>
+                    <!--                <a onclick="changePage('/user/readme')">-->
+                    <a onclick="open_and_close_2()">
+                        <i class="entypo-layout"></i>
+                        <span>帮助文档</span>
+                    </a>
+                    <ul id="readmepart">
+                        <li><a onclick="changePage('/user/readme#box1')">系统研发背景</a></li>
+                        <li><a onclick="changePage('/user/readme#box2')">操作手册</a></li>
+                        <li><a onclick="changePage('/user/readme#box3')">特征工程实现</a></li>
+                        <li><a onclick="changePage('/user/readme#box4')">数据不平衡处理</a></li>
+                        <li><a onclick="changePage('/user/readme#box5')">模型训练</a></li>
+                    </ul>
+                </li>
+                {% if is_admin %}
+                <li>
+                    <a onclick="changePage('/user/backend')">
+                        <i class="entypo-layout"></i>
+                        <span>用户管理</span>
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+
+        </div>
+        <!--	<div class="main-content">-->
+
+
+        <div class="row">
+
+            <!-- Profile Info and Notifications -->
+            <div class="col-md-6 col-sm-8 clearfix">
+
+
+                <ul class="user-info pull-left pull-right-xs pull-none-xsm">
+
+                </ul>
+
+            </div>
+
+
+            <!-- Raw Links -->
+            <div class="col-md-6 col-sm-4 clearfix hidden-xs">
+
+                <ul class="list-inline links-list pull-right">
+
+                    <li>
+                        <a href="/user/login">
+                            退出 <i class="entypo-logout right"></i>
+                        </a>
+                    </li>
+                </ul>
+
+            </div>
+
+        </div>
+
+        <iframe id="changeIframe" width="100%" height="800px" style="margin: 0;padding: 0" src="/user/index"
+            frameborder="0"></iframe>
+
+
+        <!-- Footer -->
+        <footer class="main">
+
+
+        </footer>
+    </div>
+
+
+    <script>
+        function changePage(url) {
+            document.getElementById('changeIframe').src = url
+        }
+
+        function loadinfo() {
+            //alert("页面加载完成");
+            $.ajax({
+                url: 'http://127.0.0.1:5000/info',
+                type: 'get',
+                dataType: 'json',
+                data: {
+                },
+                success: function (res) {
+                    console.log(res);
+                    // var obj = JSON.parse(res);
+                    console.log(res.data);
+                    console.log(res.data.employer_type);
+                    if (res.data.real == 1) {
+                        console.log('kk');
+                        changePage('info');
+                        document.getElementById("employer_type").value = res.data.employer_type;
+                        // window.location.href = "http://127.0.0.1:5000/info";
+                    }
+                },
+                error: function () {
+                    alert('error')
+                }
+
+            })
+        }
+
+        function open_and_close() {
+            var modelPk = document.getElementById("model_pk");
+            if (modelPk.classList.contains("visible")) {
+                modelPk.classList.remove("visible");
+            } else {
+                modelPk.classList.add("visible");
+            }
+        }
+
+        function open_and_close_2() {
+            var readmepart = document.getElementById("readmepart");
+            if (readmepart.classList.contains("visible")) {
+                readmepart.classList.remove("visible");
+            } else {
+                readmepart.classList.add("visible");
+            }
+        }
+
+
+
+
+
+
+
+
+    </script>
+
+    <link rel="stylesheet" href="../static/css/rickshaw.min.css">
+
+    <!-- Bottom Scripts -->
+    <script src="../static/js/main-gsap.js"></script>
+    <script src="../static/js/jquery-ui-1.10.3.minimal.min.js"></script>
+    <script src="../static/js/bootstrap.js"></script>
+    <script src="../static/js/joinable.js"></script>
+    <script src="../static/js/resizeable.js"></script>
+    <script src="../static/js/neon-api.js"></script>
+    <script src="../static/js/d3.v3.js"></script>
+    <script src="../static/js/rickshaw.min.js"></script>
+    <script src="../static/js/raphael-min.js"></script>
+    <script src="../static/js/morris.min.js"></script>
+    <script src="../static/js/jquery.peity.min.js"></script>
+    <script src="../static/js/neon-charts.js"></script>
+    <script src="../static/js/jquery.sparkline.min.js"></script>
+    <script src="../static/js/neon-chat.js"></script>
+    <script src="../static/js/neon-custom.js"></script>
+    <script src="../static/js/neon-demo.js"></script>
+
+</body>
+
+</html>

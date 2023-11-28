@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Predict</title>
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
+    <link rel="stylesheet" href="../static/css/history.css">
+
+    <script src="../static/js/jquery-1.11.0.min.js"></script>
+
+</head>
+
+<body>
+    <!-- partial:index.partial.html -->
+    <table>
+        <caption>预测结果文件列表</caption>
+        <thead>
+            <tr>
+                <th scope="col">算法所属</th>
+                <th scope="col">文件名</th>
+                <th scope="col">查看</th>
+                {% if is_admin %}
+                <th scope="col">操作</th>
+                {% endif %}
+                <!--        <th scope="col">下载</th>-->
+
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in files %}
+            <tr style="text-align:center">
+                <td class="Filename">{{i[1]}}</td>
+                <td class="Filename">{{i[0]}}</td>
+                <td class="Capture">
+                    <button onclick="Capture(this)">在线查看</button>
+                    <b class="Capture" style="font-weight: normal"></b>
+                </td>
+                {% if is_admin %}
+                <td class="delete">
+                    <button onclick="confirmDelete(this)">Delete</button>
+                </td>
+                {% endif %}
+                <!--        <td class="Download">-->
+                <!--            <button onclick="Download(this)">下载</button>-->
+                <!--            <b class="Download" style="font-weight: normal"></b>-->
+                <!--        </td>-->
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <!-- partial -->
+
+    <script>
+
+
+        function Capture(obj) {
+            var parent = obj.parentNode;
+            console.log(parent)
+            var filename = parent.previousElementSibling.textContent;
+            filename = 'D:/pythoncode_2/GD/resultfile/' + filename
+            window.location.href = "http://127.0.0.1:5000/user/results?filename=" + filename;
+        }
+
+        function confirmDelete(obj) {
+            var parent = obj.parentNode.parentNode;
+            var filename = parent.children[1].textContent;
+            console.log(filename);
+            $.ajax({
+                url: 'http://127.0.0.1:5000/user/delete_file',
+                type: 'GET',
+                dataType: 'json',
+                data: {
+                    "filename": filename,
+                    "path": 'D:/pythoncode_2/GD/resultfile/'
+                },
+                success: function (res) {
+                    if (res.code != 200) {
+                        alert(res.msg);
+                        return;
+                    }
+                    alert(res.msg);
+                    window.location.href = "http://127.0.0.1:5000/user/resultfile";
+                }
+            })
+        }
+
+
+
+
+
+
+
+
+    </script>
+
+</body>
+
+</html>

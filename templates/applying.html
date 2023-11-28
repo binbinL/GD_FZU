@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Predict</title>
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
+    <link rel="stylesheet" href="../static/css/history.css">
+
+    <script src="../static/js/jquery-1.11.0.min.js"></script>
+
+</head>
+
+<body>
+    <!-- partial:index.partial.html -->
+    <table>
+        <caption>文件列表</caption>
+        <thead>
+            <tr>
+                <th scope="col">文件名</th>
+                <th scope="col">预测</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in files %}
+            <tr style="text-align:center">
+                <td class="Filename">{{i}}</td>
+                <td class="Predict"><button onclick="Predict(this)">Predict</button><b class="Predict"
+                        style="font-weight: normal"></b></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <!-- partial -->
+
+    <script>
+        function Predict(obj) {
+            var parent = obj.parentNode;
+            var filename = parent.previousElementSibling.textContent;
+            console.log(filename);
+            $.ajax({
+                url: 'http://127.0.0.1:5000/user/predict',
+                type: 'post',
+                dataType: 'json',
+                data: {
+                    'filename': filename,
+                },
+                success: function (res) {
+                    console.log(res);
+                    if (res.code == 200) {
+                        alert(res.msg)
+                        window.location.href = "http://127.0.0.1:5000/user/results?filename=" + filename;
+                        //window.open("http://127.0.0.1:5000/user/predict/results")
+                    }
+                    if (res.code == 300) {
+                        alert(res.msg)
+                        //window.open("http://127.0.0.1:5000/user/charts")
+                    }
+                },
+                error: function () {
+                    alert('error')
+                }
+            })
+        }
+
+
+
+    </script>
+
+</body>
+
+</html>

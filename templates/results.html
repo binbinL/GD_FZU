@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Results</title>
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
+    <link rel="stylesheet" href="../static/css/history.css">
+    <script src="../static/js/jquery-1.11.0.min.js"></script>
+
+</head>
+
+<body>
+<!-- partial:index.partial.html -->
+<table>
+    <h1>预测结果下载</h1>
+     <p><button onclick="download()" type="submit" >Download</button></p>
+<!--    <a href="'http://127.0.0.1:5000/user/download?filename=' + window.filename">-->
+<!--        <p>-->
+<!--            <button>Download</button>-->
+<!--        </p>-->
+<!--    </a>-->
+
+    <caption>预测结果数据</caption>
+    <thead>
+    <tr>
+        <th scope="col">贷款ID</th>
+        <th scope="col">逻辑回归预测结果</th>
+        <th scope="col">CART树预测结果</th>
+        <th scope="col">随机森林预测结果</th>
+        <th scope="col">最终预测结果</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for i in files %}
+    <tr style="text-align:center">
+        <td class="loan_id">{{i[0]}}</td>
+        <td class="lr_predict">{{i[2]}}</td>
+        <td class="cart_predict">{{i[3]}}</td>
+        <td class="rf_predict">{{i[4]}}</td>
+        <td class="predict">{{i[1]}}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<!-- partial -->
+<script>
+    function download(obj) {
+        const url = new URL(window.location.href);
+        // console.log("download: url = " + url);
+        var filename = url.searchParams.get("filename");
+        window.open('http://127.0.0.1:5000/user/download?filename=' + filename, '_blank');
+    }
+
+
+
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Three Boxes</title>
+  <style>
+    .box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid black;
+      margin-bottom: 20px;
+      background-color: #f5f5f5;
+    }
+  </style>
+</head>
+
+<body>
+
+
+  </div>
+  {% if part == 0 %}
+  <div class="box" id="box2">
+    <h2>操作手册</h2>
+    <p>首先点击文件上传，将文件上传至服务器</p>
+    <p>其次点击原文件列表，可对原文件进行数据处理</p>
+    <p>接着点击已处理文件列表，可对文件进行预测，提供四种预测方式</p>
+    <p>最后点击结果文件列表，可对结果文件进行查看和下载</p>
+    <p>可以点击模型对比更清晰了解各个模型之间的差异</p>
+  </div>
+  {% endif%}
+  {% if part == 1 %}
+  <div class="box" id="box3">
+    <h2>特征工程实现</h2>
+    <h3>数据处理</h3>
+    <img src="../static/image/datadeal.png" alt="图片描述" style="max-width: 100%; max-height: 100%;">
+    <h3>特征选择</h3>
+    <p> 计算相关系数和卡方检验对应p值，得到如下数据</p>
+
+    <img src="../static/image/t1.png" alt="图片描述" style="max-width: 100%; max-height: 100%;">
+    <img src="../static/image/t2.png" alt="图片描述" style="max-width: 100%; max-height: 100%;">
+
+    <p> 根据相关性原理，选出十七个特征用于模型训练 </p>
+  </div>
+  {% endif%}
+  {% if part == 2 %}
+  <div class="box" id="box4">
+    <h2>数据不平衡处理</h2>
+    <p> 采用随机欠采样、Smote采样、Smote-Tomek混合采样</p>
+    <img src="../static/image/sampling.png" alt="图片描述" style="max-width: 100%; max-height: 100%;">
+
+    <!--    <img src="../static/image/t1.png" alt="图片描述" style="max-width: 100%; max-height: 100%;">-->
+    <!--    <img src="../static/image/t2.png" alt="图片描述" style="max-width: 100%; max-height: 100%;">-->
+
+  </div>
+  {% endif%}
+  {% if part == 3 %}
+  <div class="box" id="box5">
+    <h2>模型训练</h2>
+    <p> 三种算法在三种采样方式得到的训练数据下选出各个算法的最优模型</p>
+    <p> 具体细节可在模型对比中查看 </p>
+
+    <!--    <img src="../static/image/t1.png" alt="图片描述" style="max-width: 100%; max-height: 100%;">-->
+    <!--    <img src="../static/image/t2.png" alt="图片描述" style="max-width: 100%; max-height: 100%;">-->
+
+  </div>
+  {% endif%}
+
+  <script>
+    // 动态调整框的宽度
+    var boxes = document.querySelectorAll(".box");
+    for (var i = 0; i < boxes.length; i++) {
+      var box = boxes[i];
+      var width = box.clientWidth;
+      var content = box.querySelector("p");
+      var img = box.querySelector("img");
+      var contentWidth = content.clientWidth;
+      if (img) {
+        contentWidth += img.clientWidth;
+      }
+      if (contentWidth > width) {
+        box.style.width = contentWidth + "px";
+      }
+    }
+
+
+
+
+  </script>
+</body>
+
+</html>

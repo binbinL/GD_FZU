@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Predict</title>
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
+    <link rel="stylesheet" href="../static/css/history.css">
+
+    <script src="../static/js/jquery-1.11.0.min.js"></script>
+
+</head>
+
+<body>
+    <!-- partial:index.partial.html -->
+    <table>
+        <caption>已处理文件列表</caption>
+        <thead>
+            <tr>
+                <th scope="col">文件名</th>
+                <th scope="col">操作</th>
+                <th scope="col">算法选择</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in files %}
+            <tr style="text-align:center">
+                <td class="Filename">{{i}}</td>
+
+                <td class="Predict">
+                    <button onclick="Predict(this)">预测</button>
+                    <button onclick="capture(this)">在线查看</button>
+                    {% if is_admin %}
+                    <button onclick="confirmDelete(this)">删除</button>
+                    {% endif %}
+                </td>
+
+                <td>
+                    <select>
+                        <option value="1">逻辑回归</option>
+                        <option value="2">CART树</option>
+                        <option value="3">随机森林</option>
+                        <option value="4" selected>集成三种算法</option>
+                    </select>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <!-- partial -->
+
+    <script>
+        function Predict(obj) {
+
+            var parent = obj.parentNode.parentNode;
+            var filename = parent.children[0].textContent;
+            var value = parent.children[2].querySelector('select').value;
+            console.log(filename);
+            console.log(value);
+            $.ajax({
+                url: 'http://127.0.0.1:5000/user/predict',
+                type: 'post',
+                dataType: 'json',
+                data: {
+                    'filename': filename,
+                    'option':value
+                },
+                success: function (res) {
+                    console.log(res);
+                    if (res.code == 200) {
+                        alert(res.msg)
+                        window.location.href = "http://127.0.0.1:5000/user/resultfile";
+                        //window.open("http://127.0.0.1:5000/user/predict/results")
+                    }
+                    if (res.code == 300) {
+                        alert(res.msg)
+                        //window.open("http://127.0.0.1:5000/user/charts")
+                    }
+                },
+                error: function () {
+                    alert('error')
+                }
+            })
+        }
+
+        function capture(obj) {
+            var parent = obj.parentNode;
+            var filename = parent.previousElementSibling.textContent;
+            filename = 'D:/pythoncode_2/GD/dealedfile/' + filename
+            console.log(filename);
+            window.location.href = "http://127.0.0.1:5000/user/results?filename=" + filename;
+
+        }
+
+        function confirmDelete(obj) {
+            var parent = obj.parentNode.parentNode;
+            var filename = parent.children[0].textContent;
+            console.log(filename);
+            $.ajax({
+                url: 'http://127.0.0.1:5000/user/delete_file',
+                type: 'GET',
+                dataType: 'json',
+                data: {
+                    "filename": filename,
+                    "path": 'D:/pythoncode_2/GD/dealedfile/'
+                },
+                success: function (res) {
+                    if (res.code != 200) {
+                        alert(res.msg);
+                        return;
+                    }
+                    alert(res.msg);
+                    window.location.href = "http://127.0.0.1:5000/user/dealedfile";
+                }
+            })
+        }
+
+
+
+
+
+
+
+
+    </script>
+
+</body>
+
+</html>

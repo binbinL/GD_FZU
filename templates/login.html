@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Login and Sign up</title>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300, 400, 500" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+    <link rel="stylesheet" href="../static/css/login.css">
+    <style type="text/css">
+        .alert {
+            padding: 20px;
+            background-color: #f44336;
+            color: white;
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100%;
+            z-index: 1;
+            display: none;
+        }
+
+        .closebtn {
+            margin-left: 15px;
+            color: white;
+            font-weight: bold;
+            float: right;
+            font-size: 22px;
+            line-height: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .closebtn:hover {
+            color: black;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- partial:index.partial.html -->
+    <!--
+  This was created based on the Dribble shot by Deepak Yadav that you can find at https://goo.gl/XRALsw
+  I'm @hk95 on GitHub. Feel free to message me anytime.
+-->
+    <div class="alert">
+        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+        <strong id="alert-strong"></strong>
+    </div>
+    <section class="user">
+        <div class="user_options-container">
+            <div class="user_options-text">
+                <div class="user_options-unregistered">
+                    <h2 class="user_unregistered-title">没有账户?</h2>
+                    <!--                <p class="user_unregistered-text">Banjo tote bag bicycle rights, High Life sartorial cray craft beer-->
+                    <!--                    whatever street art fap.</p>-->
+                    <button class="user_unregistered-signup" id="signup-button">注册</button>
+                </div>
+
+                <div class="user_options-registered">
+                    <h2 class="user_registered-title">已有帐户?</h2>
+                    <!--                <p class="user_registered-text">Banjo tote bag bicycle rights, High Life sartorial cray craft beer-->
+                    <!--                    whatever street art fap.</p>-->
+                    <button class="user_registered-login" id="login-button">登录</button>
+                </div>
+            </div>
+
+            <div class="user_options-forms" id="user_options-forms">
+                <div class="user_forms-login">
+                    <h2 class="forms_title">登录</h2>
+                    <form class="forms_form" method="post" action='/user/login'>
+                        <fieldset class="forms_fieldset">
+                            <div class="forms_field">
+                                <input type="text" placeholder="用户名" name="username" required autofocus />
+                            </div>
+                            <div class="forms_field">
+                                <input type="password" placeholder="密码" name="password" required />
+                            </div>
+                        </fieldset>
+                        <div class="forms_buttons">
+                            <!--                        <button type="button" class="forms_buttons-forgot">Forgot password?</button>-->
+                            <input type="submit" value="登录" class="forms_buttons-action">
+                        </div>
+                    </form>
+                </div>
+                <div class="user_forms-signup">
+                    <h2 class="forms_title">注册</h2>
+                    <form class="forms_form" method="post" action='/user/register'>
+                        <fieldset class="forms_fieldset">
+                            <div class="forms_field">
+                                <input type="text" placeholder="用户名" name="name" required />
+                            </div>
+                            <div class="forms_field">
+                                <input type="tel" placeholder="电话" name="tel" required />
+                            </div>
+                            <div class="forms_field">
+                                <input type="password" placeholder="密码" name="password" required />
+                            </div>
+                        </fieldset>
+                        <div class="forms_buttons">
+                            <input type="submit" value="注册" class="forms_buttons-action">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- partial -->
+    <!-- <button onclick="document.getElementsByClassName('alert')[0].style.display='block';pa()">Show Alert Box</button> -->
+
+    <script type="text/javascript">
+        function pa() {
+            setTimeout(function () {
+                document.getElementsByClassName('alert')[0].style.display = 'none';
+            }, 8000);
+        }
+    </script>
+    <script src="../static/js/login.js"></script>
+    <script>
+        window.onload = function () {
+            var msg = "{{ msg }}";
+            if (msg != "") {
+                document.getElementById('alert-strong').textContent = msg;
+                if (msg == "注册成功") {
+                    document.getElementsByClassName('alert')[0].style.backgroundColor = "green";
+                } else if (msg != "用户名或者密码错误") {
+                    userForms.classList.remove('bounceRight');
+                    userForms.classList.add('bounceLeft');
+                }
+                document.getElementsByClassName('alert')[0].style.display = 'block';
+                pa();
+                // alert(msg);
+            }
+        }
+    </script>
+</body>
+
+</html>

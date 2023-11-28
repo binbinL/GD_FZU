@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Predict</title>
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
+    <link rel="stylesheet" href="../static/css/history.css">
+
+    <script src="../static/js/jquery-1.11.0.min.js"></script>
+    <style type="text/css">
+        .tooltip {
+            position: absolute;
+            padding: 10px;
+            background-color: #333;
+            color: #fff;
+            font-size: 14px;
+            border-radius: 4px;
+            z-index: 9999;
+        }
+    </style>
+
+
+</head>
+
+<body>
+    <!-- partial:index.partial.html -->
+    <table>
+        <caption>原文件列表</caption>
+        <thead>
+            <tr>
+                <th scope="col">文件名</th>
+                <th scope="col">操作</th>
+
+
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in files %}
+            <tr style="text-align:center">
+                <td class="Filename">{{i}}</td>
+                <td class="Deal">
+                    <button data-tooltip="将数据处理成可输入算法模型的格式" onclick="Deal(this)">处理</button>
+                    <b class="Deal" style="font-weight: normal"></b>
+                    <button onclick="capture(this)">在线查看</button>
+                    {% if is_admin %}
+                    <button onclick="confirmDelete(this)">删除</button>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <!-- partial -->
+
+    <script>
+        function Deal(obj) {
+            var parent = obj.parentNode;
+            var filename = parent.previousElementSibling.textContent;
+            console.log(filename);
+            $.ajax({
+                url: 'http://127.0.0.1:5000/user/dealedfile',
+                type: 'post',
+                dataType: 'json',
+                data: {
+                    'filename': filename,
+                },
+                success: function (res) {
+                    console.log(res);
+                    if (res.code == 200) {
+                        alert(res.msg)
+                        window.location.href = "http://127.0.0.1:5000/user/dealedfile";
+                        //window.open("http://127.0.0.1:5000/user/predict/results")
+                    }
+                    if (res.code == 300) {
+                        alert(res.msg)
+                        //window.open("http://127.0.0.1:5000/user/charts")
+                    }
+                },
+                error: function () {
+                    alert('error')
+                }
+            })
+        }
+
+        function confirmDelete(obj) {
+            var parent = obj.parentNode.parentNode;
+            var filename = parent.children[0].textContent;
+            console.log(filename);
+            $.ajax({
+                url: 'http://127.0.0.1:5000/user/delete_file',
+                type: 'GET',
+                dataType: 'json',
+                data: {
+                    "filename": filename,
+                    "path": 'D:/pythoncode_2/GD/uploads/'
+                },
+                success: function (res) {
+                    if (res.code != 200) {
+                        alert(res.msg);
+                        return;
+                    }
+                    alert(res.msg);
+                    window.location.href = "http://127.0.0.1:5000/user/rawfile";
+                }
+            })
+        }
+
+        function capture(obj) {
+            var parent = obj.parentNode;
+            var filename = parent.previousElementSibling.textContent;
+            filename = 'D:/pythoncode_2/GD/uploads/' + filename
+            console.log(filename);
+            window.location.href = "http://127.0.0.1:5000/user/results?filename=" + filename;
+
+        }
+
+        // 获取所有带有data-tooltip属性的标签
+        const tooltipElements = document.querySelectorAll('[data-tooltip]');
+        // 监听鼠标移入事件
+        tooltipElements.forEach(element => {
+            element.addEventListener('mouseenter', () => {
+                const tooltipText = element.getAttribute('data-tooltip');
+                const tooltip = document.createElement('div');
+                tooltip.classList.add('tooltip');
+                tooltip.innerText = tooltipText;
+                document.body.appendChild(tooltip);
+                const { top, left } = element.getBoundingClientRect();
+                tooltip.style.top = `${top + element.offsetHeight + 10}px`;
+                tooltip.style.left = `${left}px`;
+            });
+            // 监听鼠标移出事件
+            element.addEventListener('mouseleave', () => {
+                const tooltip = document.querySelector('.tooltip');
+                if (tooltip) {
+                    tooltip.remove();
+                }
+            });
+        });
+
+
+    </script>
+
+</body>
+
+</html>

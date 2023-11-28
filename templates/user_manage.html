@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <script src="../static/js/jquery-1.11.0.min.js"></script>
+    <title>用户管理</title>
+    <script>
+        function put_user(user) {
+            var tel = document.getElementById('tel-' + user).value;
+            var selectElement = document.getElementById('select-' + user);
+            var role = selectElement.options[selectElement.selectedIndex].value;
+            $.ajax({
+                url: 'http://127.0.0.1:5000/user/put_user?user=' + user + '&tel=' + tel + '&role=' + role,
+                type: 'GET',
+                dataType: 'json',
+                data: {
+                },
+                success: function (res) {
+                    if (res.code != 200) {
+                        alert(res.msg);
+                        return;
+                    }
+                    console.log(res);
+                    alert("用户" + user + "修改成功");
+                }
+            })
+        }
+        function delete_user(user) {
+            $.ajax({
+                url: 'http://127.0.0.1:5000/user/delete_user?user=' + user,
+                type: 'GET',
+                dataType: 'json',
+                data: {
+                    "user": user
+                },
+                success: function (res) {
+                    if (res.code != 200) {
+                        alert(res.msg);
+                        return;
+                    }
+                    console.log(res);
+                    var u = document.getElementById('tr-' + user);
+                    u.parentNode.removeChild(u);
+                    alert("用户" + user + "删除成功");
+                }
+            })
+        }
+    </script>
+    <style>
+        button {
+            cursor: pointer;
+            display: inline-block;
+            text-align: center;
+            white-space: nowrap;
+            background: #aaabae;
+            color: #fff;
+            border-radius: 980px;
+            font-size: 12px;
+            line-height: 1.33337;
+            font-weight: 400;
+            letter-spacing: -.01em;
+            font-family: "SF Pro Text", "SF Pro Icons", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+            min-width: 23px;
+            padding-left: 11px;
+            padding-right: 11px;
+            padding-top: 4px;
+            padding-bottom: 4px;
+        }
+
+        .table {
+            width: 30%;
+            margin-left: 1%;
+            flex-shrink: 0;
+        }
+
+        .cards-table {
+            width: 100%;
+            font-family: Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            text-align: center;
+        }
+
+        .cards-table td,
+        #cards-table th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        .cards-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .cards-table tr:hover {
+            background-color: #ddd;
+        }
+
+        .cards-table th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            background-color: #303641;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <table class="cards-table">
+        <tr>
+            <th>用户名</th>
+            <th>电话</th>
+            <th>角色</th>
+            <th>操作</th>
+        </tr>
+        {% for user in users %}
+        <tr id="tr-{{user[0]}}">
+            <td id="user-{{user[0]}}">{{user[0]}}</td>
+            <td><input value="{{user[1]}}" id="tel-{{user[0]}}"></td>
+            <td>
+                <select name="role" id="select-{{user[0]}}">
+                    <option value="admin" {% if user[2]=='admin' %} selected {% endif %}>管理员</option>
+                    <option value="user" {% if user[2]=='user' %} selected {% endif %}>普通用户</option>
+                    <option value="superadmin" {% if user[2]=='superadmin' %} selected {% endif %}>超级管理员</option>
+                </select>
+            </td>
+            <td>
+                <button onclick="delete_user('{{user[0]}}')">删除</button>
+                <button onclick="put_user('{{user[0]}}')">修改</button>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+
+</html>
